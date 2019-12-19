@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace WizKids_Tasks
@@ -8,11 +10,10 @@ namespace WizKids_Tasks
         static void task1()
         {
             Console.WriteLine("task1");
-            string initialWord = "dog";
+            string initialWord = "mom";
             char[] wordArray = initialWord.ToCharArray();
             Array.Reverse(wordArray);
             string reversedWord = new string(wordArray);
-            Console.WriteLine(reversedWord);
             bool isWordPalindrome = initialWord.Equals(reversedWord);
             if (isWordPalindrome)
             {
@@ -96,11 +97,129 @@ namespace WizKids_Tasks
             Console.WriteLine(modifiedText);
 
         }
+
+        public static int GetDamerauLevenshteinDistance(string s, string t)
+        {
+            var bounds = new { Height = s.Length + 1, Width = t.Length + 1 };
+
+            int[,] matrix = new int[bounds.Height, bounds.Width];
+
+            for (int height = 0; height < bounds.Height; height++) { matrix[height, 0] = height; };
+            for (int width = 0; width < bounds.Width; width++) { matrix[0, width] = width; };
+
+            for (int height = 1; height < bounds.Height; height++)
+            {
+                for (int width = 1; width < bounds.Width; width++)
+                {
+                    int cost = (s[height - 1] == t[width - 1]) ? 0 : 1;
+                    int insertion = matrix[height, width - 1] + 1;
+                    int deletion = matrix[height - 1, width] + 1;
+                    int substitution = matrix[height - 1, width - 1] + cost;
+
+                    int distance = Math.Min(insertion, Math.Min(deletion, substitution));
+
+                    if (height > 1 && width > 1 && s[height - 1] == t[width - 2] && s[height - 2] == t[width - 1])
+                    {
+                        distance = Math.Min(distance, matrix[height - 2, width - 2] + cost);
+                    }
+
+                    matrix[height, width] = distance;
+                }
+            }
+
+            return matrix[bounds.Height - 1, bounds.Width - 1];
+        }
+        static void task4(string inputWord = null)
+        {
+            var originalWord = inputWord == null ? "test" : inputWord;
+            var alphabet = "a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z";
+            var alphabetList = alphabet.Replace(",", " ").Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            List<string> wordSuggestionList = new List<String>();
+            var duplicateCount = 0;
+
+            for (int i = 0; i <= originalWord.Length; i++)
+            {
+
+                //swapping
+                if (i + 1 < originalWord.Length)
+                {
+                    var currentLetter = originalWord[i];
+                    var nextLetter = originalWord[i + 1];
+                    var wordOnSwap = new StringBuilder(originalWord);
+                    wordOnSwap[i] = nextLetter;
+                    wordOnSwap[i + 1] = currentLetter;
+                    if (!(wordSuggestionList.Contains(wordOnSwap.ToString())))
+                    {
+                        wordSuggestionList.Add(wordOnSwap.ToString());
+                    }
+                    else
+                    {
+                        duplicateCount++;
+                    }
+                }
+
+                //delete
+                var wordOnDelete = new StringBuilder(originalWord).Remove(i == 0 ? i : i - 1, 1).ToString();
+                if (!(wordSuggestionList.Contains(wordOnDelete.ToString())))
+                {
+                    wordSuggestionList.Add(wordOnDelete.ToString());
+                }
+
+
+                //insert
+                foreach (string letter in alphabetList)
+                {
+                    var wordOnInsert = new StringBuilder(originalWord).Insert(i, letter).ToString();
+                    int suggestedWordDamerauScore = GetDamerauLevenshteinDistance(originalWord, wordOnInsert);
+                    if (suggestedWordDamerauScore == 1)
+                    {
+                        if (!(wordSuggestionList.Contains(wordOnInsert)))
+                        {
+                            wordSuggestionList.Add(wordOnInsert.ToString());
+                        }
+                        else
+                        {
+                            duplicateCount++;
+                        }
+                    }
+                }
+
+                //replace
+                foreach (string letter in alphabetList)
+                {
+                    var wordOnReplace = new StringBuilder(originalWord).Remove(i == 0 ? 0 : i - 1, 1).Insert(i == 0 ? i : i - 1, letter).ToString();
+                    int suggestedWordDamerauScore = GetDamerauLevenshteinDistance(originalWord.ToString(), wordOnReplace.ToString());
+                    if (suggestedWordDamerauScore == 1)
+                    {
+                        if (!(wordSuggestionList.Contains(wordOnReplace)))
+                        {
+                            wordSuggestionList.Add(wordOnReplace);
+                        }
+                        else
+                        {
+                            duplicateCount++;
+                        }
+                    }
+                }
+            }
+
+            //
+            Console.WriteLine("Non-unique words count = " + duplicateCount);
+            Console.WriteLine("Number of suggestions = " + wordSuggestionList.Count);
+            foreach (var word in wordSuggestionList)
+            {
+                Console.WriteLine(word);
+            }
+        }
         static void Main(string[] args)
         {
-            //task1();
-            //task2();
-            //task3();
+            task1();
+            task2();
+            task3();
+            // for running the expected "test" test (4a+ 4b)
+            task4();
+            //same as the one up top but now you can change the string variable 
+            task4("vatican");
         }
     }
 }

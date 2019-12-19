@@ -1,0 +1,10 @@
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.exe
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.deps.json
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.runtimeconfig.json
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.runtimeconfig.dev.json
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.dll
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\bin\Debug\netcoreapp3.0\WizKids-Tasks.pdb
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\obj\Debug\netcoreapp3.0\WizKids-Tasks.AssemblyInfoInputs.cache
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\obj\Debug\netcoreapp3.0\WizKids-Tasks.AssemblyInfo.cs
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\obj\Debug\netcoreapp3.0\WizKids-Tasks.dll
+C:\Source\WizKids-Tasks\WizKids-Tasks\WizKids-Tasks\obj\Debug\netcoreapp3.0\WizKids-Tasks.pdb
