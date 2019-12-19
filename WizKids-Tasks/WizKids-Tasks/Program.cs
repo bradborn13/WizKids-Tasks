@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace WizKids_Tasks
 {
@@ -71,10 +72,35 @@ namespace WizKids_Tasks
 
             //}
         }
+        static void task3()
+        {
+            string originalText = "Christian has the email address christian+123@gmail.com. Christian's friend, John Cave-Brown, has the email address john.cave-brown@gmail.com. John's daughter Kira studies at Oxford University and has the email address Kira123@oxford.co.uk. Her twitter handle is @kira.cavebrown.";
+            string modifiedText = originalText;
+            Regex emailRegex = new Regex(@"^([\w\.\-+]+)@([\w\-]+)((\.(\w){2,3})+)");
+            String punctuationRegexPattern = @"[\p{P}-[()\-.@ ]]";
+            var textRemovePunctiation = Regex.Replace(originalText, punctuationRegexPattern, "");
+            var textSplit = textRemovePunctiation.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var word in textSplit)
+            {
+                var regexFixDotEmailCondition = word[word.Length - 1].ToString() == ".";
+                var filteredWord = regexFixDotEmailCondition ? word.Remove(word.Length - 1) : word;
+                Match isEmailValid = emailRegex.Match(filteredWord);
+                if (isEmailValid.Success)
+                {
+                    modifiedText = regexFixDotEmailCondition ? modifiedText.Replace(word, "!!!.") : modifiedText.Replace(word, "!!!");
+                }
+            }
+
+            Console.WriteLine(originalText);
+            Console.WriteLine(modifiedText);
+
+        }
         static void Main(string[] args)
         {
             //task1();
-            //task2
+            //task2();
+            //task3();
         }
     }
 }
